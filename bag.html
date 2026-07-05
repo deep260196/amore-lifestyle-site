@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Bag | Amore Lifestyle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;0,600;1,400;1,500&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#F3EFE8;--blush:#E6DFD1;--plum:#6E6E6E;--rose:#6E6E6E;--gold:#A68A5B;--ink:#2B2B2A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--ivory);color:var(--ink);font-family:'Work Sans',sans-serif;line-height:1.5;}
+  h1,h2{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-0.01em;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 32px;}
+
+  header{position:sticky;top:0;z-index:50;background:var(--ivory);border-bottom:1px solid rgba(33,26,29,.1);}
+  .top-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 32px;max-width:1240px;margin:0 auto;flex-wrap:wrap;}
+  .logo img{height:38px;display:block;}
+  .icons{display:flex;gap:16px;align-items:center;font-size:12px;}
+  .bag-count,.wishlist-count{display:inline-block;min-width:15px;height:15px;line-height:15px;text-align:center;background:var(--rose);color:var(--ivory);border-radius:50%;font-size:9px;margin-left:2px;}
+
+  .page-head{padding:28px 0 8px;}
+  .page-head .tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--rose);}
+  .page-head h1{font-size:clamp(24px,3vw,32px);margin-top:6px;}
+
+  .bag-list{padding:20px 0 10px;}
+  .bag-row{
+    display:flex;align-items:center;gap:18px;padding:18px 0;
+    border-bottom:1px solid rgba(33,26,29,.1);
+  }
+  .bag-thumb{width:76px;height:76px;border-radius:6px;flex:0 0 auto;}
+  .swatch-1{background:linear-gradient(145deg,#E6DFD1,#C9622D);}
+  .swatch-2{background:linear-gradient(145deg,#EDE6DA,#A68A5B);}
+  .swatch-3{background:linear-gradient(145deg,#3A3A3A,#545454);}
+  .swatch-4{background:linear-gradient(145deg,#E6DFD1,#A68A5B);}
+  .bag-info{flex:1;}
+  .bag-info h4{font-size:15px;font-weight:500;margin-bottom:4px;}
+  .bag-info .cat{font-size:12px;opacity:.6;}
+  .bag-price{font-family:'Space Mono',monospace;font-size:14px;white-space:nowrap;}
+  .qty-box{display:flex;align-items:center;border:1px solid var(--ink);border-radius:2px;}
+  .qty-box button{width:30px;height:30px;background:none;border:none;font-size:14px;cursor:pointer;}
+  .qty-box span{width:26px;text-align:center;font-family:'Space Mono',monospace;font-size:13px;}
+  .remove-link{font-size:11px;opacity:.6;text-decoration:underline;cursor:pointer;margin-top:6px;display:inline-block;}
+  .remove-link:hover{opacity:1;color:var(--rose);}
+
+  .empty-state{padding:60px 0;text-align:center;}
+  .empty-state p{opacity:.7;margin-bottom:20px;}
+  .btn{display:inline-block;padding:13px 26px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;border-radius:2px;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);transition:all .2s;}
+  .btn:hover{background:var(--rose);border-color:var(--rose);}
+  .btn-outline{background:none;color:var(--ink);}
+  .btn-outline:hover{background:var(--ink);color:var(--ivory);}
+
+  .summary{padding:24px 0 60px;}
+  .summary-row{display:flex;justify-content:space-between;font-size:14px;padding:6px 0;}
+  .summary-row.total{font-size:18px;font-family:'Fraunces',serif;padding-top:14px;margin-top:8px;border-top:1px solid rgba(33,26,29,.15);}
+  .summary-actions{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;}
+
+  footer{padding:44px 0 28px;text-align:center;font-size:12px;opacity:.7;}
+
+  @media (max-width:600px){
+    .bag-row{flex-wrap:wrap;}
+    .bag-price{order:3;width:100%;text-align:right;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top-bar">
+    <a href="index.html" class="logo"><img src="logo.png?v=3" alt="Amore Lifestyle"></a>
+    <div class="icons">
+      <a href="wishlist.html">Wishlist <span class="wishlist-count">0</span></a>
+      <a href="account.html">Account</a>
+      <a href="bag.html">Bag <span class="bag-count">0</span></a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap page-head">
+  <div class="tag">Your Order</div>
+  <h1>Your Bag</h1>
+</div>
+
+<div class="wrap">
+  <div class="bag-list" id="bagList"></div>
+  <div class="summary" id="summary" style="display:none;">
+    <div class="summary-row"><span>Subtotal</span><span id="subtotal"></span></div>
+    <div class="summary-row"><span>Shipping</span><span id="shipping"></span></div>
+    <div class="summary-row total"><span>Total</span><span id="total"></span></div>
+    <div class="summary-actions">
+      <button class="btn" onclick="checkout()">Checkout</button>
+      <a href="categories.html" class="btn btn-outline">Continue Shopping</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">© 2026 Amore Lifestyle · Ahmedabad, Gujarat, India</div>
+</footer>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="products.js?v=4"></script>
+<script src="cart.js?v=3"></script>
+<script>
+  function render(){
+    try {
+      renderInner();
+    } catch (err) {
+      document.getElementById('bagList').innerHTML = `
+        <div class="empty-state">
+          <h2 style="margin-bottom:10px;">Something went wrong showing your bag.</h2>
+          <p style="font-family:monospace;font-size:12px;background:#fff;padding:12px;border-radius:6px;text-align:left;">${(err && err.message) ? err.message : err}</p>
+          <p>Please take a screenshot of this message and send it over.</p>
+        </div>`;
+    }
+  }
+
+  function renderInner(){
+    if (typeof PRODUCTS === 'undefined'){
+      document.getElementById('bagList').innerHTML = `
+        <div class="empty-state">
+          <h2 style="margin-bottom:10px;">Something didn't load right.</h2>
+          <p>This page needs products.js and cart.js to be in the same folder as this page. Please check both files are uploaded, then refresh.</p>
+        </div>`;
+      return;
+    }
+    const bag = getBag();
+    const ids = Object.keys(bag).map(Number);
+    const bagList = document.getElementById('bagList');
+    const summary = document.getElementById('summary');
+
+    if (ids.length === 0){
+      bagList.innerHTML = `
+        <div class="empty-state">
+          <h2 style="margin-bottom:10px;">Your bag is empty.</h2>
+          <p>Find something you love from our collections.</p>
+          <a href="categories.html" class="btn">Shop All Categories</a>
+        </div>`;
+      summary.style.display = 'none';
+      return;
+    }
+
+    let subtotal = 0;
+    bagList.innerHTML = ids.map(id => {
+      const p = PRODUCTS.find(pr => pr.id === id);
+      if (!p) return '';
+      const qty = bag[id];
+      subtotal += p.price * qty;
+      return `
+        <div class="bag-row">
+          <div class="bag-thumb ${p.swatch}"></div>
+          <div class="bag-info">
+            <h4><a href="buy.html?id=${p.id}">${p.name}</a></h4>
+            <div class="cat">${p.categoryLabel}</div>
+            <span class="remove-link" onclick="removeItem(${p.id})">Remove</span>
+          </div>
+          <div class="qty-box">
+            <button onclick="changeQty(${p.id}, -1)">−</button>
+            <span>${qty}</span>
+            <button onclick="changeQty(${p.id}, 1)">+</button>
+          </div>
+          <div class="bag-price">₹ ${(p.price * qty).toLocaleString('en-IN')}</div>
+        </div>`;
+    }).join('');
+
+    const shipping = subtotal >= 999 ? 0 : 79;
+    document.getElementById('subtotal').textContent = `₹ ${subtotal.toLocaleString('en-IN')}`;
+    document.getElementById('shipping').textContent = shipping === 0 ? 'Free' : `₹ ${shipping}`;
+    document.getElementById('total').textContent = `₹ ${(subtotal + shipping).toLocaleString('en-IN')}`;
+    summary.style.display = 'block';
+    currentTotal = subtotal + shipping;
+    currentItemsSummary = ids.map(id => {
+      const p = PRODUCTS.find(pr => pr.id === id);
+      return p ? `${bag[id]} × ${p.name}` : '';
+    }).filter(Boolean).join(', ');
+  }
+
+  let currentTotal = 0;
+  let currentItemsSummary = '';
+
+  function changeQty(id, delta){
+    const bag = getBag();
+    const newQty = (bag[id] || 0) + delta;
+    setBagQty(id, newQty);
+    render();
+  }
+  function removeItem(id){
+    removeFromBag(id);
+    render();
+  }
+
+  // ---- Checkout: opens the real Razorpay payment window for the whole bag ----
+  function checkout(){
+    if (currentTotal <= 0) return;
+    openRazorpayCheckout({
+      amountRupees: currentTotal,
+      description: currentItemsSummary,
+      onSuccess: function(paymentId){
+        const summary = currentItemsSummary;
+        const total = currentTotal;
+        setBag({});
+        window.location.href = `order-success.html?payment_id=${paymentId}&amount=${total}&item=${encodeURIComponent(summary)}`;
+      }
+    });
+  }
+
+  render();
+</script>
+</body>
+</html>
