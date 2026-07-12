@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Account | Amore Lifestyle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;0,600;1,400;1,500&family=Work+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#F3EFE8;--blush:#E6DFD1;--plum:#6E6E6E;--rose:#6E6E6E;--gold:#A68A5B;--ink:#2B2B2A;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--ivory);color:var(--ink);font-family:'Work Sans',sans-serif;line-height:1.5;}
+  h1,h2{font-family:'Fraunces',serif;font-weight:500;letter-spacing:-0.01em;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:560px;margin:0 auto;padding:0 32px;}
+
+  header{position:sticky;top:0;z-index:50;background:var(--ivory);border-bottom:1px solid rgba(33,26,29,.1);}
+  .top-bar{display:flex;align-items:center;gap:14px;padding:14px 32px;max-width:1240px;margin:0 auto;flex-wrap:wrap;}
+  .logo img{height:38px;display:block;}
+  .icons{display:flex;gap:16px;align-items:center;font-size:12px;}
+  .bag-count,.wishlist-count{display:inline-block;min-width:15px;height:15px;line-height:15px;text-align:center;background:var(--rose);color:var(--ivory);border-radius:50%;font-size:9px;margin-left:2px;}
+
+  .page-head{padding:28px 0 8px;}
+  .page-head .tag{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--rose);}
+  .page-head h1{font-size:clamp(24px,3vw,32px);margin-top:6px;}
+  .page-head p{margin-top:8px;font-size:13px;opacity:.7;}
+
+  .card{background:#fff;border-radius:8px;padding:26px;margin:24px 0;box-shadow:0 2px 14px rgba(33,26,29,.06);}
+  label{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.05em;opacity:.65;margin-bottom:6px;}
+  input, select{
+    width:100%;padding:12px 14px;margin-bottom:18px;border:1px solid rgba(33,26,29,.2);
+    border-radius:4px;font-family:'Work Sans';font-size:14px;background:var(--ivory);
+  }
+  select:focus{outline:1px solid var(--rose);}
+  input:focus{outline:1px solid var(--rose);}
+  .btn{
+    display:inline-block;padding:13px 26px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+    border-radius:2px;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);
+  }
+  .btn:hover{background:var(--rose);border-color:var(--rose);}
+  .btn-outline{background:none;color:var(--ink);}
+  .btn-outline:hover{background:var(--ink);color:var(--ivory);}
+
+  .saved-banner{
+    display:none;margin-top:14px;padding:12px 16px;background:var(--blush);
+    border-radius:4px;font-size:13px;font-family:'Space Mono',monospace;
+  }
+  .profile-view p{font-size:14px;margin-bottom:10px;}
+  .profile-view strong{opacity:.6;font-weight:500;display:inline-block;width:90px;}
+  .note{font-size:12px;opacity:.6;margin-top:20px;line-height:1.6;}
+
+  footer{padding:44px 0 28px;text-align:center;font-size:12px;opacity:.7;}
+  .hamburger-btn{background:none;border:none;font-size:22px;cursor:pointer;color:var(--ink);line-height:1;padding:4px 8px 4px 0;}
+  .icon-row{display:flex;align-items:center;gap:18px;margin-left:auto;}
+  .icon-btn{position:relative;display:flex;align-items:center;color:var(--ink);}
+  .icon-btn svg{width:22px;height:22px;stroke:var(--ink);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
+  .icon-badge{position:absolute;top:-7px;right:-9px;min-width:15px;height:15px;line-height:15px;text-align:center;background:var(--rose);color:var(--ivory);border-radius:50%;font-size:9px;padding:0 3px;}
+  .menu-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:90;}
+  .menu-overlay.open{display:block;}
+  .side-menu{
+    position:fixed;top:0;left:0;height:100%;width:270px;max-width:80vw;
+    background:var(--ivory);z-index:100;transform:translateX(-100%);
+    transition:transform .25s ease;box-shadow:4px 0 20px rgba(0,0,0,.15);
+    display:flex;flex-direction:column;
+  }
+  .side-menu.open{transform:translateX(0);}
+  .side-menu-head{display:flex;justify-content:space-between;align-items:center;padding:20px 22px;border-bottom:1px solid rgba(33,26,29,.1);}
+  .side-menu-head span{font-family:'Fraunces',serif;font-size:16px;}
+  .side-menu-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--ink);}
+  .side-menu a{display:block;padding:16px 22px;font-size:14px;border-bottom:1px solid rgba(33,26,29,.06);color:var(--ink);}
+  .side-menu a:hover{background:var(--blush);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="top-bar">
+    <button class="hamburger-btn" onclick="toggleMenu(true)" aria-label="Menu">☰</button>
+    <a href="index.html" class="logo"><img src="logo.png?v=3" alt="Amore Lifestyle"></a>
+    <div class="icon-row">
+      <a href="wishlist.html" class="icon-btn" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24"><path d="M12 21s-7.5-4.6-10-9.3C.5 8 2 4.5 5.5 4 8 3.6 10 5 12 7c2-2 4-3.4 6.5-3 3.5.5 5 4 3.5 7.7C19.5 16.4 12 21 12 21z"/></svg>
+        <span class="icon-badge wishlist-count">0</span>
+      </a>
+      <a href="account.html" class="icon-btn" aria-label="Account">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+      </a>
+      <a href="bag.html" class="icon-btn bag-link" aria-label="Bag">
+        <svg viewBox="0 0 24 24"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
+        <span class="icon-badge bag-count">0</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="menu-overlay" id="menuOverlay" onclick="toggleMenu(false)"></div>
+<div class="side-menu" id="sideMenu">
+  <div class="side-menu-head">
+    <span>Menu</span>
+    <button class="side-menu-close" onclick="toggleMenu(false)">✕</button>
+  </div>
+  <a href="index.html">Home</a>
+  <a href="categories.html">Categories</a>
+  <a href="categories.html?sort=default">New Arrivals</a>
+  <a href="categories.html?sort=bestseller">Best Sellers</a>
+  <a href="contact.html">Contact Us</a>
+  <a href="policy.html">Policy</a>
+</div>
+<script>
+  function toggleMenu(open){
+    document.getElementById('sideMenu').classList.toggle('open', open);
+    document.getElementById('menuOverlay').classList.toggle('open', open);
+  }
+</script>
+
+<div class="wrap page-head">
+  <div class="tag">Your Details</div>
+  <h1 id="pageTitle">Your Account</h1>
+  <p>Save your details so checkout is quicker next time.</p>
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <div id="formView">
+      <label>Full Name *</label>
+      <input type="text" id="nameInput" placeholder="e.g. Deep Shah">
+      <label>Birthday *</label>
+      <input type="date" id="birthdayInput">
+      <label>Gender *</label>
+      <select id="genderInput">
+        <option value="" disabled selected>Select Gender</option>
+        <option value="Female">Female</option>
+        <option value="Male">Male</option>
+        <option value="Other">Other</option>
+      </select>
+      <label>Email *</label>
+      <input type="email" id="emailInput" placeholder="you@example.com">
+      <label>Phone Number *</label>
+      <input type="tel" id="phoneInput" placeholder="98765 43210">
+      <label>Delivery Address *</label>
+      <input type="text" id="addressInput" placeholder="Flat / Street / Area / City">
+      <button class="btn" onclick="saveProfile()">Save Details</button>
+      <div class="saved-banner" id="savedBanner">Saved. These details will show here next time you visit.</div>
+    </div>
+
+    <div id="profileViewBox" style="display:none;">
+      <div class="profile-view">
+        <p><strong>Name</strong><span id="vName"></span></p>
+        <p><strong>Email</strong><span id="vEmail"></span></p>
+        <p><strong>Phone</strong><span id="vPhone"></span></p>
+        <p><strong>Address</strong><span id="vAddress"></span></p>
+        <p><strong>Birthday</strong><span id="vBirthday"></span></p>
+        <p><strong>Gender</strong><span id="vGender"></span></p>
+      </div>
+      <button class="btn btn-outline" onclick="editProfile()">Edit Details</button>
+    </div>
+  </div>
+
+  <p class="note">Note: this simply remembers your details on this device/browser — it's not a secure login yet. When you're ready for customers to properly sign in and see real past orders, that needs a backend login system (for example, Netlify Identity or Firebase) added on top of this.</p>
+</div>
+
+<footer>
+  <div class="wrap">© 2026 Amore Lifestyle · Ahmedabad, Gujarat, India</div>
+</footer>
+
+<script src="cart.js?v=3"></script>
+<script>
+  const PROFILE_KEY = 'amore_profile';
+
+  function getProfile(){
+    try { return JSON.parse(localStorage.getItem(PROFILE_KEY)); }
+    catch(e){ return null; }
+  }
+
+  function saveProfile(){
+    const profile = {
+      name: document.getElementById('nameInput').value.trim(),
+      birthday: document.getElementById('birthdayInput').value,
+      gender: document.getElementById('genderInput').value,
+      email: document.getElementById('emailInput').value.trim(),
+      phone: document.getElementById('phoneInput').value.trim(),
+      address: document.getElementById('addressInput').value.trim()
+    };
+
+    const missing = [];
+    if (!profile.name) missing.push('Full Name');
+    if (!profile.birthday) missing.push('Birthday');
+    if (!profile.gender) missing.push('Gender');
+    if (!profile.email) missing.push('Email');
+    if (!profile.phone) missing.push('Phone Number');
+    if (!profile.address) missing.push('Delivery Address');
+
+    if (missing.length > 0){
+      alert('Please fill in: ' + missing.join(', '));
+      return;
+    }
+
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+    document.getElementById('savedBanner').style.display = 'block';
+    setTimeout(showProfileView, 600);
+  }
+
+  function editProfile(){
+    document.getElementById('formView').style.display = 'block';
+    document.getElementById('profileViewBox').style.display = 'none';
+  }
+
+  function formatBirthday(dateStr){
+    if (!dateStr) return '—';
+    const d = new Date(dateStr + 'T00:00:00');
+    if (isNaN(d)) return '—';
+    return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'long' });
+  }
+
+  function showProfileView(){
+    const p = getProfile();
+    if (!p || !p.name) return;
+    document.getElementById('vName').textContent = p.name || '—';
+    document.getElementById('vEmail').textContent = p.email || '—';
+    document.getElementById('vPhone').textContent = p.phone || '—';
+    document.getElementById('vAddress').textContent = p.address || '—';
+    document.getElementById('vBirthday').textContent = formatBirthday(p.birthday);
+    document.getElementById('vGender').textContent = p.gender || '—';
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('profileViewBox').style.display = 'block';
+  }
+
+  // On load: if details already saved, show the summary view instead of the form.
+  (function init(){
+    const p = getProfile();
+    if (p && p.name){
+      document.getElementById('nameInput').value = p.name || '';
+      document.getElementById('emailInput').value = p.email || '';
+      document.getElementById('phoneInput').value = p.phone || '';
+      document.getElementById('addressInput').value = p.address || '';
+      document.getElementById('birthdayInput').value = p.birthday || '';
+      document.getElementById('genderInput').value = p.gender || '';
+      showProfileView();
+    }
+  })();
+</script>
+</body>
+</html>
