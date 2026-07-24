@@ -1,0 +1,59 @@
+backend:
+  name: git-gateway
+  branch: main
+
+# Where photos land when you drag them in, and the path used to show them on the site.
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "products"
+    label: "Products"
+    files:
+      - file: "data/products.json"
+        label: "All Products"
+        name: "products"
+        fields:
+          - label: "Products"
+            name: "products"
+            widget: "list"
+            summary: "{{fields.name}} — ₹{{fields.price}}"
+            collapsed: true
+            fields:
+              - { label: "ID (never change this)", name: "id", widget: "number", value_type: "int" }
+              - { label: "Product Name", name: "name", widget: "string" }
+              - label: "Category"
+                name: "category"
+                widget: "select"
+                options:
+                  - { label: "Gifting", value: "gifting" }
+                  - { label: "Perfume", value: "perfume" }
+                  - { label: "Fashion", value: "fashion" }
+                  - { label: "Wall Decor", value: "wall-decor" }
+                  - { label: "Home Decor", value: "home-decor" }
+                  - { label: "Crockery", value: "crockery" }
+                  - { label: "Kitchen", value: "kitchen" }
+              - { label: "Category Label (shown on site)", name: "categoryLabel", widget: "string" }
+              - { label: "Group (e.g. For Her / For Him — leave blank if none)", name: "group", widget: "string", required: false }
+              - { label: "Group Label (leave blank if none)", name: "groupLabel", widget: "string", required: false }
+              - { label: "Subcategory (e.g. jewellery)", name: "subcategory", widget: "string" }
+              - { label: "Subcategory Label (shown on site)", name: "subcategoryLabel", widget: "string" }
+              - { label: "Price (₹) — what customers pay", name: "price", widget: "number", value_type: "int" }
+              - { label: "MRP (₹) — the 'before discount' price shown crossed out", name: "mrp", widget: "number", value_type: "int" }
+              - { label: "Description", name: "description", widget: "text", required: false }
+              - { label: "Dimensions (e.g. 20 x 15 x 5 cm) — leave blank if not applicable", name: "dimensions", widget: "string", required: false }
+              - { label: "Capacity (e.g. 250 ml) — mainly for Crockery & Perfume", name: "capacity", widget: "string", required: false }
+              - label: "Badge"
+                name: "badge"
+                widget: "select"
+                required: false
+                options: ["Bestseller", "New", "Gift Ready"]
+              - label: "Placeholder Colour (used only when there's no photo yet)"
+                name: "swatch"
+                widget: "select"
+                options: ["swatch-1", "swatch-2", "swatch-3", "swatch-4"]
+              - label: "Photos (drag and drop up to 5, first one is the main photo)"
+                name: "images"
+                widget: "list"
+                required: false
+                field: { label: "Photo", name: "src", widget: "image" }
